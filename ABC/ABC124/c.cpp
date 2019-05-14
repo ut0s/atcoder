@@ -1,7 +1,7 @@
 /**
-  @date Time-stamp: <2019-04-13 22:38:15 tagashira>
+  @date Time-stamp: <2019-05-14 21:32:14 tagashira>
   @file a.cpp
-  @brief https://atcoder.jp/contests/abc123/tasks/abc124_c
+  @brief https://atcoder.jp/contests/abc124/tasks/abc124_c
 **/
 
 #include <algorithm>
@@ -18,24 +18,32 @@ int main(int argc, char* argv[]) {
 
   string S;
   cin >> S;
-  vector<char> vS;
-  for (i = 0; i < S.size(); i++) {
-    vS.push_back(S[i]);
-  }
 
-  int operation = 0;
+  // @ref https://atcoder.jp/contests/abc124/submissions/4942940
   if (S.size() == 1) {
-    cout << operation << "\n";
+    cout << "0"
+         << "\n";
   } else {
-    for (i = 1; i < S.size(); i++) {
-      if (vS[i - 1] == vS[i]) {
-        operation++;
-        vS[i + 1] = vS[i];
-        vS[i]     = vS[i] == 1 ? 0 : 1;
-        // cout << vS << "\n";
+    int pattern0 = 0;
+    int pattern1 = 0;
+
+    string a = "", b = "";
+    for (int i = 0; i < S.length(); i++) {
+      if (i % 2 == 0) {
+        a += "0";
+        b += "1";
+      } else {
+        a += "1";
+        b += "0";
       }
     }
-    cout << operation << "\n";
+
+    for (i = 0; i < S.length(); i++) {
+      if (S[i] != a[i]) pattern0++;
+      if (S[i] != b[i]) pattern1++;
+    }
+
+    cout << min(pattern0, pattern1) << "\n";
   }
 
   return 0;
