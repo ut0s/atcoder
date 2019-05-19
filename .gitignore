@@ -7,6 +7,8 @@ d
 # test folder
 test
 
+# Makefile
+Makefile
 
 ### https://raw.github.com/github/gitignore/7eef17f37c63ce3cbddbdd154ff836f370d0ad70/C++.gitignore
 
