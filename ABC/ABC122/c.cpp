@@ -1,5 +1,5 @@
 /**
-  @date Time-stamp: <2019-05-17 22:33:02 tagashira>
+  @date Time-stamp: <2019-05-19 10:53:21 tagashira>
   @file c.cpp
   @title C - GeT AC
   @brief https://atcoder.jp/contests/abc122/tasks/abc122_c
@@ -31,21 +31,25 @@ int main(int argc, char* argv[]) {
     r.push_back(tmpR);
   }
 
-  string query      = "AC";
-  string calc_cache = "";
-  for (i = 0; i < S.length() - 1; i++) {
-    // cout << S.substr(i, 2) << "\n"; // for debug
-    if (S.substr(i, 2) == query) {
-      calc_cache += '1';
-    } else {
-      calc_cache += '0';
-    }
+  //index:  0 1 2 3 4 5 6 7
+  //string: A C A C T A C G
+  //memo:  0 0 1 1 2 2 2 3 4 // Cumulative sum
+  //index: 0 1 2 3 4 5 6 7 8
+
+  vector<int> sum(N + 1, 0);
+  for (i = 1; i < N + 1; i++) {
+    sum[i + 1] = sum[i];
+    if (S[i - 1] == 'A' && S[i] == 'C') sum[i + 1]++;
   }
-  // cout << calc_cache << "\n"; // for debug
+
+  // for debug
+  // for (i = 0; i < N + 1; i++) {
+  //   cout << sum[i] << " ";
+  // }
+  // cout << "\n";
 
   for (i = 0; i < Q; i++) {
-    // cout << calc_cache.substr(l[i] - 1, r[i] - l[i]) << "\n"; // for debug
-    cout << std::count(&S[l[i] - 1], &S[r[i] - l[i]], '1') << endl;
+    cout << sum[r[i]] - sum[l[i]] << endl;
   }
 
   return 0;
