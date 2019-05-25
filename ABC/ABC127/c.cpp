@@ -1,5 +1,5 @@
 /**
-  @date Time-stamp: <2019-05-25 22:18:59 tagashira>
+  @date Time-stamp: <2019-05-25 23:40:38 tagashira>
   @file c.cpp
   @title C - Prison
   @brief https://atcoder.jp/contests/abc127/tasks/abc127_c
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
   uint maxL = *max_element(L.begin(), L.end());
   uint minR = *min_element(R.begin(), R.end());
 
-  uint ans = minR - maxL + 1;
+  int ans = minR - maxL + 1;
   if (ans >= 0) {
     cout << ans << endl;
   } else {
