@@ -9,5 +9,5 @@ $(TARGET): $(OBJS)
 	$(CXX) -o $@ $(OBJS)
 
 clean:
-	rm -f $(TARGET) $(OBJS) a b c d
+	rm -f $(TARGET) $(OBJS) a b c d e f
 	rm -r test
