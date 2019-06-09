@@ -10,4 +10,4 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(TARGET) $(OBJS) a b c d e f
-	rm -r test
+	rm -rf test
