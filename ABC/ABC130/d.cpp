@@ -29,10 +29,9 @@ int main(int argc, char* argv[]) {
 
   long long ans = 0;
   for (long long end = N; S[end] >= K && end >= 0; end--) {
-    for (long long start = 0; start < end; start++) {
+    for (long long start = end; start >= 0; start--) {
       if (S[end] - S[start] >= K) {
-        ans++;
-      } else {
+        ans += start - 0 + 1;
         break;
       }
     }
