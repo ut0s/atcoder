@@ -8,6 +8,7 @@
 using namespace std;
 
 typedef long long LL;
+#define ALL(obj) (obj).begin(), (obj).end()
 
 template <class T>
 void show(vector<T>& v) {
@@ -48,7 +49,7 @@ int main() {
   LL tmpA, tmpB;
   for (int i = 0; i < N; i++) {
     cin >> tmpA >> tmpB;
-    AB[i] = make_pair(tmpA, tmpB);
+    AB[i] = make_pair(tmpB, tmpA);
   }
 
   // for debug
@@ -57,7 +58,7 @@ int main() {
   // show(AB, 2);
   // cout << endl;
 
-  sort(AB.begin(), AB.end(), compare_by_second);
+  sort(ALL(AB));
 
   // for debug
   // cout << "After Sort" << endl;
@@ -66,8 +67,8 @@ int main() {
 
   LL time = 0;
   for (int i = 0; i < N; i++) {
-    time += AB[i].first;
-    if (time > AB[i].second) {
+    time += AB[i].second;
+    if (time > AB[i].first) {
       cout << "No" << endl;
       exit(0);
     } else {
