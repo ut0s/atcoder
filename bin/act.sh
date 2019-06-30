@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-06-30 12:40:28 tagashira>
+# @date Time-stamp: <2019-06-30 15:45:38 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -251,9 +251,6 @@ oj_submit(){
   local level=$2
 
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
-  local id=$(echo $url | cut -d '/' -f7)
-  local contest=$(echo $id | tr -cd '[a-z]\n')
-  local contest_num=$(echo $id | tr -cd '0123456789\n')
 
   oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp |& tee tmp.log
   submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
@@ -276,15 +273,34 @@ open_problem_page(){
 # @doc me <level> open AtCoder submission me page
 open_submission_page(){
   local command=$1
-  local level=$2
 
-  local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
+  local url=$(cat a.cpp | grep "@url" | cut -d ' ' -f4)
   local id=$(echo $url | cut -d '/' -f7)
-  local contest=$(echo $id | tr -cd '[a-z]\n')
+  local contest=$(echo $id | cut -d'_' -f1 | tr -cd '[a-z]\n')
   local contest_num=$(echo $id | tr -cd '0123456789\n')
-  local submission_me="#https://atcoder.jp/contests/${contest}${contest_num}/submissions/me"
+  local submission_me="https://atcoder.jp/contests/${contest}${contest_num}/submissions/me"
 
   $open_browser $submission_me
+}
+
+
+# @doc pdf open AtCoder editorial pdf
+open_editorial_pdf(){
+  local command=$1
+  local url=$(cat a.cpp | grep "@url" | cut -d ' ' -f4)
+  local pdf_page=$(curl -s -H 'Accept-Language: ja' -XGET $url |grep pdf |cut -d '"' -f2)
+
+  $open_browser $pdf_page
+}
+
+
+# @doc open AtCoder youtube live
+open_youtube(){
+  local command=$1
+  local url=$(cat a.cpp | grep "@url" | cut -d ' ' -f4)
+  local youtube_url=$(curl -s -H 'Accept-Language: ja' -XGET $url |grep youtube |cut -d '"' -f2)
+
+  $open_browser $youtube_url
 }
 
 
@@ -310,6 +326,8 @@ function main() {
     "submit" ) oj_submit $@;;
     "open" ) open_problem_page $@;;
     "me" ) open_submission_page $@;;
+    "pdf" ) open_editorial_pdf $@;;
+    "youtube" ) open_youtube $@;;
     "help" ) usage ;;
     * ) echo "something wrong" ;;
   esac
