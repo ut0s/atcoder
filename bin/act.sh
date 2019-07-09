@@ -101,6 +101,7 @@ oj_new(){
     setup_manual $contest_id
   fi
 
+  echo $(pwd)
 }
 
 setup_normal_contest(){
@@ -158,8 +159,6 @@ EOS
       oj_download $level $url
     fi
   done
-
-  cd ${path_to_atcoder}/${contest^^}/${contest^^}${contest_num}
 }
 
 
@@ -220,8 +219,6 @@ EOS
       oj_download $level $url
     fi
   done
-
-  cd ${path_toatcoder}/${contest^^}/${contest^^}${contest_num}
 }
 
 
@@ -253,8 +250,8 @@ oj_submit(){
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
 
   oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp |& tee tmp.log
-  submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
-  echo $submitted_url
+  readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
+  # echo $submitted_url
   rm -f tmp.log
 }
 
@@ -294,7 +291,7 @@ open_editorial_pdf(){
 }
 
 
-# @doc open AtCoder youtube live
+# @doc youtube AtCoder youtube live
 open_youtube(){
   local command=$1
   local url=$(cat a.cpp | grep "@url" | cut -d ' ' -f4)
@@ -320,14 +317,14 @@ function main() {
     "login" ) oj_login ;;
     "session" ) oj_session ;;
     "logout" ) oj_logout ;;
-    "new" ) oj_new $@;;
+    "new" ) oj_new $@ ;;
     "dl" ) oj_download $@ ;;
-    "test" ) oj_test $@;;
-    "submit" ) oj_submit $@;;
-    "open" ) open_problem_page $@;;
-    "me" ) open_submission_page $@;;
-    "pdf" ) open_editorial_pdf $@;;
-    "youtube" ) open_youtube $@;;
+    "test" ) oj_test $@ ;;
+    "submit" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
+    "open" ) open_problem_page $@ ;;
+    "me" ) open_submission_page $@ ;;
+    "pdf" ) open_editorial_pdf $@ ;;
+    "youtube" ) open_youtube $@ ;;
     "help" ) usage ;;
     * ) echo "something wrong" ;;
   esac
