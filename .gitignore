@@ -3,12 +3,19 @@ a
 b
 c
 d
+e
+f
 
 # test folder
 test
 
 # Makefile
 Makefile
+
+# resouces
+/etc/.problems.json
+/etc/.icon.png
+
 
 ### https://raw.github.com/github/gitignore/7eef17f37c63ce3cbddbdd154ff836f370d0ad70/C++.gitignore
 
@@ -44,4 +51,3 @@ Makefile
 *.exe
 *.out
 *.app
-/bin/.problems.json
