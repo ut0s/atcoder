@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-09 20:42:42 tagashira>
+# @date Time-stamp: <2019-07-09 21:01:39 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -150,7 +150,7 @@ int main() {
   int N;
   cin >> N;
 
-
+  cout << "" << endl;
   return 0;
 }
 
@@ -211,6 +211,7 @@ int main() {
   cin >> N;
 
 
+  cout << "" << endl;
   return 0;
 }
 
