@@ -1,12 +1,12 @@
 #!/bin/bash
-# @date Time-stamp: <2019-06-30 15:45:38 tagashira>
+# @date Time-stamp: <2019-07-09 20:42:42 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
 set -ue
 
-open_browser="google-chrome"
-path_to_atcoder="$HOME/atcoder/"
+readonly open_browser="google-chrome"
+readonly path_to_atcoder="$HOME/atcoder/"
 
 function usage() {
   cat <<EOS
@@ -30,16 +30,16 @@ check_oj(){
 # @doc update update problem json
 update_problem_json(){
   now=$(date +%s)
-  if [ -e ${path_to_atcoder}/bin/.problems.json ]
+  if [ -e ${path_to_atcoder}/etc/.problems.json ]
   then
-    modify=$(date +%s -r ${path_to_atcoder}/bin/.problems.json)
+    modify=$(date +%s -r ${path_to_atcoder}/etc/.problems.json)
 
     if [ $(($now - $modify)) -gt $((1*60*60)) ]
     then
-      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/bin/.problems.json && echo "Update"
+      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/etc/.problems.json && echo "Update"
     fi
   else
-      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/bin/.problems.json && echo "Init Download"
+      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/etc/.problems.json && echo "Init Download"
   fi
 }
 
@@ -76,13 +76,13 @@ oj_logout(){
   fi
 }
 
-# @doc new <contest_id> make new folder
+# @doc new <contest_id> make new folder, touch file(*.cpp), insert template, and move
 oj_new(){
   local contest_id=$2
 
   update_problem_json
 
-  cat ${path_to_atcoder}/bin/.problems.json |jq -r '.[].contest_id' |sort -d |uniq | grep $contest_id > /dev/null && FLAG_EXIST=1  || FLAG_EXIST=0
+  cat ${path_to_atcoder}/etc/.problems.json |jq -r '.[].contest_id' |sort -d |uniq | grep $contest_id > /dev/null && FLAG_EXIST=1  || FLAG_EXIST=0
 
   if [ ${FLAG_EXIST} -eq "1" ]
   then
@@ -112,11 +112,11 @@ setup_normal_contest(){
 
   mkdir -p ${contest^^}/${contest^^}${contest_num}
   cd ${contest^^}/${contest^^}${contest_num}
-  ln -is ${path_to_atcoder}/etc/Makefile .
+  ln -fs ${path_to_atcoder}/etc/Makefile .
 
-  for id in $(cat ${path_to_atcoder}/bin/.problems.json |jq -r '.[].id' |grep $contest_id ); do
+  for id in $(cat ${path_to_atcoder}/etc/.problems.json |jq -r '.[].id' |grep $contest_id ); do
     level=$(echo $id |cut -d '_' -f2) # ex.) a,b,c,d
-    title=$(cat ${path_to_atcoder}/bin/.problems.json |jq -r ".[] | select(.id==\"$id\") | .title" | sed 's#\.# -#')
+    title=$(cat ${path_to_atcoder}/etc/.problems.json |jq -r ".[] | select(.id==\"$id\") | .title" | sed 's#\.# -#')
 
     url="https://atcoder.jp/contests/${contest}${contest_num}/tasks/${id}"
 
@@ -173,16 +173,16 @@ setup_manual(){
 
   mkdir -p ${contest^^}/${contest^^}${contest_num}
   cd ${contest^^}/${contest^^}${contest_num}
-  ln -is ${path_to_atcoder}/etc/Makefile .
+  ln -fs ${path_to_atcoder}/etc/Makefile .
 
   echo -n "Input Max Problem Level: "
   read problem_num
 
-  for level in echo {a..$problem_num}; do # ex.) a,b,c,d
+  for level in {a..f}; do # ex.) a,b,c,d
     url="https://atcoder.jp/contests/${contest}${contest_num}/tasks/${contest_id}_${level}"
-    title=$(curl -s $url | grep \<title\> | cut -d '<' -f2 |cut -d '>' -f2)
+    title=$(curl -s -H 'Accept-Language: ja' -XGET $url | grep \<title\> | cut -d '<' -f2 |cut -d '>' -f2)
 
-    if [ -e $level.cpp]
+    if [ -e $level.cpp ]
     then
       oj_download $level $url
     else
