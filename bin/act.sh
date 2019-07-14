@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-09 21:01:39 tagashira>
+# @date Time-stamp: <2019-07-15 08:05:56 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -55,6 +55,7 @@ oj_login(){
   read -s PASSWORD
 
   oj login -u ${USER} -p ${PASSWORD} https://atcoder.jp
+  wget --save-cookies ${path_to_atcoder}/etc/.cookies -q --no-check-certificate --user=$USER --password=$PASSWORD "https://atcoder.jp/login/"
 }
 
 
@@ -179,7 +180,7 @@ setup_manual(){
 
   for level in {a..f}; do # ex.) a,b,c,d
     url="https://atcoder.jp/contests/${contest}${contest_num}/tasks/${contest_id}_${level}"
-    title=$(curl -s -H 'Accept-Language: ja' -XGET $url | grep \<title\> | cut -d '<' -f2 |cut -d '>' -f2)
+    title=$(wget --load-cookies ${path_to_atcoder}/etc/.cookies -q --no-check-certificate $url | grep \<title\> | cut -d '<' -f2 |cut -d '>' -f2)
 
     if [ -e $level.cpp ]
     then
