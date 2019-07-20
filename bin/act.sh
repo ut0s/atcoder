@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-15 08:05:56 tagashira>
+# @date Time-stamp: <2019-07-20 22:52:17 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -174,9 +174,6 @@ setup_manual(){
   mkdir -p ${contest^^}/${contest^^}${contest_num}
   cd ${contest^^}/${contest^^}${contest_num}
   ln -fs ${path_to_atcoder}/etc/Makefile .
-
-  echo -n "Input Max Problem Level: "
-  read problem_num
 
   for level in {a..f}; do # ex.) a,b,c,d
     url="https://atcoder.jp/contests/${contest}${contest_num}/tasks/${contest_id}_${level}"
