@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-19 11:19:54 tagashira>
   @file a.cpp
   @title A - White Cells
-  @brief https://atcoder.jp/contests/abc121/tasks/abc121_a
+  @url https://atcoder.jp/contests/abc121/tasks/abc121_a
 **/
 
 #include <algorithm>

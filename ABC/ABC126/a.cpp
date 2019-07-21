@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-19 21:14:36 tagashira>
   @file a.cpp
   @title A - Changing a Character
-  @brief https://atcoder.jp/contests/abc126/tasks/abc126_a
+  @url https://atcoder.jp/contests/abc126/tasks/abc126_a
 **/
 
 #include <algorithm>

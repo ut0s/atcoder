@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-26 13:19:58 tagashira>
   @file d.cpp
   @title D - Integer Cards
-  @brief https://atcoder.jp/contests/abc127/tasks/abc127_d
+  @url https://atcoder.jp/contests/abc127/tasks/abc127_d
 **/
 
 #include <algorithm>

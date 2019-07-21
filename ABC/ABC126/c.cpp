@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-19 22:14:44 tagashira>
   @file c.cpp
   @title C - Dice and Coin
-  @brief https://atcoder.jp/contests/abc126/tasks/abc126_c
+  @url https://atcoder.jp/contests/abc126/tasks/abc126_c
 **/
 
 #include <algorithm>

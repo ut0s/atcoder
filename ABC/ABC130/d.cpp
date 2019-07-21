@@ -1,7 +1,7 @@
 /**
   @file d.cpp
   @title D - Enough Array
-  @brief https://atcoder.jp/contests/abc130/tasks/abc130_d
+  @url https://atcoder.jp/contests/abc130/tasks/abc130_d
 **/
 
 #include <bits/stdc++.h>

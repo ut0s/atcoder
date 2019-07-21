@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-09 21:10:55 tagashira>
   @file b.cpp
   @title B - Balance
-  @brief https://atcoder.jp/contests/abc129/tasks/abc129_b
+  @url https://atcoder.jp/contests/abc129/tasks/abc129_b
 **/
 
 #include <algorithm>

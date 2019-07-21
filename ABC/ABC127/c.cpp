@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-25 23:40:38 tagashira>
   @file c.cpp
   @title C - Prison
-  @brief https://atcoder.jp/contests/abc127/tasks/abc127_c
+  @url https://atcoder.jp/contests/abc127/tasks/abc127_c
 **/
 
 #include <algorithm>

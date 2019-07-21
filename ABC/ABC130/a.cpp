@@ -1,7 +1,7 @@
 /**
   @file a.cpp
   @title A - Rounding
-  @brief https://atcoder.jp/contests/abc130/tasks/abc130_a
+  @url https://atcoder.jp/contests/abc130/tasks/abc130_a
 **/
 
 #include <bits/stdc++.h>

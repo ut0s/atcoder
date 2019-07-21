@@ -1,7 +1,7 @@
 /**
   @file b.cpp
   @title B - Bounding
-  @brief https://atcoder.jp/contests/abc130/tasks/abc130_b
+  @url https://atcoder.jp/contests/abc130/tasks/abc130_b
 **/
 
 #include <bits/stdc++.h>

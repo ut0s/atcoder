@@ -1,7 +1,7 @@
 /**
   @file c.cpp
   @title C - Anti-Division
-  @brief https://atcoder.jp/contests/abc131/tasks/abc131_c
+  @url https://atcoder.jp/contests/abc131/tasks/abc131_c
 **/
 
 #include <bits/stdc++.h>

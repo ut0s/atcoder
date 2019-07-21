@@ -1,7 +1,7 @@
 /**
   @date Time-stamp: <2019-04-20 21:46:20 tagashira>
   @file a.cpp
-  @brief https://tenka1-2019-beginner.contest.atcoder.jp/tasks/tenka1_2019_a
+  @url https://tenka1-2019-beginner.contest.atcoder.jp/tasks/tenka1_2019_a
 **/
 
 #include <cmath>

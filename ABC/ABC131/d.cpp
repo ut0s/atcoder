@@ -1,7 +1,7 @@
 /**
   @file c.cpp
   @title D - Megalomania
-  @brief https://atcoder.jp/contests/abc131/tasks/abc131_d
+  @url https://atcoder.jp/contests/abc131/tasks/abc131_d
 **/
 
 #include <bits/stdc++.h>

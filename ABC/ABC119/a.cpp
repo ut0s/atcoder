@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-26 18:58:54 tagashira>
   @file a.cpp
   @title A - Still TBD
-  @brief https://atcoder.jp/contests/abc119/tasks/abc119_a
+  @url https://atcoder.jp/contests/abc119/tasks/abc119_a
 **/
 
 #include <bits/stdc++.h>

@@ -1,7 +1,7 @@
 /**
   @date Time-stamp: <2019-05-14 21:32:14 tagashira>
   @file a.cpp
-  @brief https://atcoder.jp/contests/abc124/tasks/abc124_c
+  @url https://atcoder.jp/contests/abc124/tasks/abc124_c
 **/
 
 #include <algorithm>

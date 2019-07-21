@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-25 19:32:25 tagashira>
   @file a.cpp
   @title A - Favorite Sound
-  @brief https://atcoder.jp/contests/abc120/tasks/abc120_a
+  @url https://atcoder.jp/contests/abc120/tasks/abc120_a
 **/
 
 #include <bits/stdc++.h>

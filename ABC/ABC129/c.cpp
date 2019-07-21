@@ -1,7 +1,7 @@
 /**
   @file c.cpp
   @title C - Typical Stairs
-  @brief https://atcoder.jp/contests/abc129/tasks/abc129_c
+  @url https://atcoder.jp/contests/abc129/tasks/abc129_c
 **/
 
 #include <bits/stdc++.h>

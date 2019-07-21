@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-23 13:08:30 tagashira>
   @file c.cpp
   @title C - Energy Drink Collector
-  @brief https://atcoder.jp/contests/abc121/tasks/abc121_c
+  @url https://atcoder.jp/contests/abc121/tasks/abc121_c
 **/
 
 #include <algorithm>

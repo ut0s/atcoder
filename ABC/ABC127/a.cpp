@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-25 21:08:58 tagashira>
   @file a.cpp
   @title A - Ferris Wheel
-  @brief https://atcoder.jp/contests/abc127/tasks/abc127_a
+  @url https://atcoder.jp/contests/abc127/tasks/abc127_a
 **/
 
 #include <algorithm>

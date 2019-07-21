@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-19 10:53:21 tagashira>
   @file c.cpp
   @title C - GeT AC
-  @brief https://atcoder.jp/contests/abc122/tasks/abc122_c
+  @url https://atcoder.jp/contests/abc122/tasks/abc122_c
 **/
 
 #include <algorithm>

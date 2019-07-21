@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-26 19:40:29 tagashira>
   @file b.cpp
   @title B - Digital Gifts
-  @brief https://atcoder.jp/contests/abc119/tasks/abc119_b
+  @url https://atcoder.jp/contests/abc119/tasks/abc119_b
 **/
 
 #include <bits/stdc++.h>

@@ -1,7 +1,7 @@
 /**
   @file c.cpp
   @title C - Synthetic Kadomatsu
-  @brief https://atcoder.jp/contests/abc119/tasks/abc119_c
+  @url https://atcoder.jp/contests/abc119/tasks/abc119_c
 **/
 
 #include <bits/stdc++.h>

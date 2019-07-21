@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-25 19:56:11 tagashira>
   @file b.cpp
   @title B - K-th Common Divisor
-  @brief https://atcoder.jp/contests/abc120/tasks/abc120_b
+  @url https://atcoder.jp/contests/abc120/tasks/abc120_b
 **/
 
 #include <bits/stdc++.h>

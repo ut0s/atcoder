@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-02 20:40:20 tagashira>
   @file a.cpp
   @title A - Sum of Interior Angles
-  @brief https://atcoder.jp/contests/m-solutions2019/tasks/m_solutions2019_a
+  @url https://atcoder.jp/contests/m-solutions2019/tasks/m_solutions2019_a
 **/
 
 #include <algorithm>

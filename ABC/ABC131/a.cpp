@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-22 21:12:08 tagashira>
   @file a.cpp
   @title A - Security
-  @brief https://atcoder.jp/contests/abc131/tasks/abc131_a
+  @url https://atcoder.jp/contests/abc131/tasks/abc131_a
 **/
 
 #include <bits/stdc++.h>

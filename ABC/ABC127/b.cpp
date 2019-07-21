@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-05-25 21:14:54 tagashira>
   @file b.cpp
   @title B - Algae
-  @brief https://atcoder.jp/contests/abc127/tasks/abc127_b
+  @url https://atcoder.jp/contests/abc127/tasks/abc127_b
 **/
 
 #include <algorithm>

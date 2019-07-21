@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-02 20:41:48 tagashira>
   @file b.cpp
   @title B - Sumo
-  @brief https://atcoder.jp/contests/m-solutions2019/tasks/m_solutions2019_b
+  @url https://atcoder.jp/contests/m-solutions2019/tasks/m_solutions2019_b
 **/
 
 #include <algorithm>

@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-09 21:02:12 tagashira>
   @file a.cpp
   @title A - Airplane
-  @brief https://atcoder.jp/contests/abc129/tasks/abc129_a
+  @url https://atcoder.jp/contests/abc129/tasks/abc129_a
 **/
 
 #include <algorithm>

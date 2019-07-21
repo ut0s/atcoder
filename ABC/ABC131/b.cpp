@@ -2,7 +2,7 @@
   @date Time-stamp: <2019-06-22 21:33:13 tagashira>
   @file b.cpp
   @title B - Bite Eating
-  @brief https://atcoder.jp/contests/abc131/tasks/abc131_b
+  @url https://atcoder.jp/contests/abc131/tasks/abc131_b
 **/
 
 #include <bits/stdc++.h>
