@@ -36,10 +36,10 @@ update_problem_json(){
 
     if [ $(($now - $modify)) -gt $((1*60*60)) ]
     then
-      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/etc/.problems.json && echo "Update"
+      ping -c 1 google.com > /dev/null && curl -s 'https://kenkoooo.com/atcoder/resources/problems.json' -H 'authority: kenkoooo.com' -H 'cache-control: max-age=0' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36' -H 'dnt: 1' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'referer: https://github.com/kenkoooo/AtCoderProblems' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7' --compressed > ${path_to_atcoder}/etc/.problems.json && echo "Update"
     fi
   else
-      ping -c 1 google.com > /dev/null && curl -s https://kenkoooo.com/atcoder/resources/problems.json > ${path_to_atcoder}/etc/.problems.json && echo "Init Download"
+    ping -c 1 google.com > /dev/null && curl -s 'https://kenkoooo.com/atcoder/resources/problems.json' -H 'authority: kenkoooo.com' -H 'cache-control: max-age=0' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36' -H 'dnt: 1' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'referer: https://github.com/kenkoooo/AtCoderProblems' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7' --compressed > ${path_to_atcoder}/etc/.problems.json && echo "Init Download"
   fi
 }
 
@@ -55,7 +55,6 @@ oj_login(){
   read -s PASSWORD
 
   oj login -u ${USER} -p ${PASSWORD} https://atcoder.jp
-  wget --save-cookies ${path_to_atcoder}/etc/.cookies -q --no-check-certificate --user=$USER --password=$PASSWORD "https://atcoder.jp/login/"
 }
 
 
@@ -179,7 +178,7 @@ setup_manual(){
 
   for level in {a..f}; do # ex.) a,b,c,d
     url="https://atcoder.jp/contests/${contest}${contest_num}/tasks/${contest_id}_${level}"
-    title=$(wget --load-cookies ${path_to_atcoder}/etc/.cookies -q --no-check-certificate $url | grep \<title\> | cut -d '<' -f2 |cut -d '>' -f2)
+    title=""
 
     if [ -e $level.cpp ]
     then
