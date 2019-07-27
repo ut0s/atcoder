@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-20 22:52:17 tagashira>
+# @date Time-stamp: <2019-07-27 17:44:18 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -13,7 +13,7 @@ function usage() {
 Usage:
   $0 COMMAND
 
-  COMMAND      update, login, session, logout, new, dl, test, submit, open, me, help
+  COMMAND      update, login, session, logout, new, dl, test, sys|system, sub|submit, open, me, help
 EOS
   echo ""
   cat ${path_to_atcoder}/bin/act.sh | grep "@doc" |cut -d ' ' -f2- |tail -n +2
@@ -125,6 +125,7 @@ setup_normal_contest(){
     if [ -e $level.cpp ]
     then
       oj_download $level $url
+      $path_to_atcoder/bin/dl_system_downloader $contest_id
     else
       touch $level.cpp
       cat <<EOS >> $level.cpp
@@ -158,6 +159,7 @@ int main() {
 EOS
 
       oj_download $level $url
+      $path_to_atcoder/bin/dl_system_downloader $contest_id
     fi
   done
 }
@@ -240,8 +242,17 @@ oj_test(){
   oj test --print-input --print-memory -d test/$level -c ./$level
 }
 
+# @doc sys|system <level> test all testcase
+oj_system_test(){
+  local command=$1
+  local level=$2
 
-# @doc submit <level> test sample case
+  make $level
+  oj test --print-input --print-memory -d system/$level -c ./$level
+}
+
+
+# @doc sub|submit <level> test sample case
 oj_submit(){
   local command=$1
   local level=$2
@@ -319,6 +330,9 @@ function main() {
     "new" ) oj_new $@ ;;
     "dl" ) oj_download $@ ;;
     "test" ) oj_test $@ ;;
+    "sys" ) oj_system_test $@ ;;
+    "system" ) oj_system_test $@ ;;
+    "sub" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
     "submit" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
     "open" ) open_problem_page $@ ;;
     "me" ) open_submission_page $@ ;;
