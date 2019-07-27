@@ -51,3 +51,5 @@ Makefile
 *.exe
 *.out
 *.app
+/etc/.dropbox_contests.info
+/etc/.dropbox_link.info
