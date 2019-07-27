@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 13:59:13 tagashira>
+# @date Time-stamp: <2019-07-27 17:54:11 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -18,7 +18,7 @@ function usage() {
 Usage:
   $0 COMMAND
 
-  COMMAND      update, <contest_id>
+  COMMAND      <contest_id>, update
 EOS
   echo ""
   cat ${path_to_atcoder}/bin/dl_system_testcase.sh | grep "@doc" |cut -d ' ' -f2- |tail -n +2
@@ -70,14 +70,14 @@ dl_testcase_in_out(){
   for problem_link in $(obtain_problem_link $contest_id $par_link); do
     for in_out_link in $(curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' "${problem_link}" --compressed | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static | grep -e "/out" -e "/in" | sort -d | uniq ); do
       local level=$(echo $in_out_link | cut -d '/' -f8 )
-      mkdir -p ${level,,}
-
+      mkdir -p system/${level,,}
       for dl_link in $(curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' "${in_out_link}" --compressed | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static | grep -e "/out/" -e "/in/" | sort -d | uniq); do
         local filename=$(echo $dl_link |cut -d '/' -f10 | cut -d '?' -f1)
-        echo "Download $filename"
-        echo $dl_link | grep "/in/" > /dev/null && wget -q -O- $dl_link > ${level,,}/${filename}.in
-        echo $dl_link | grep "/out/" > /dev/null && wget -q -O- $dl_link > ${level,,}/${filename}.out
+        echo "$level/$filename"
+        echo $dl_link | grep "/in/" > /dev/null && curl -sL $dl_link -o system/${level,,}/${filename}.in  &
+        echo $dl_link | grep "/out/" > /dev/null && curl -sL $dl_link -o system/${level,,}/${filename}.out &
       done
+      wait
     done
   done
 }
@@ -99,10 +99,7 @@ main(){
   local contest=$(echo $contest_id | tr -cd '[a-z]\n')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
 
-  cd $path_to_atcoder # $HOME/atcoder
-  mkdir -p ${contest^^}/${contest^^}${contest_num}/system
-  cd ${contest^^}/${contest^^}${contest_num}/system
-
+  echo "Download system testcase ..."
   dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
 }
 
