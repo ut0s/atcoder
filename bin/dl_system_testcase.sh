@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 18:35:32 tagashira>
+# @date Time-stamp: <2019-07-27 18:55:31 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -98,6 +98,13 @@ main(){
   local contest_id=$1
   local contest=$(echo $contest_id | tr -cd '[a-z]\n')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
+
+  if [ -f $path_to_cache/.dropbox_link.info ]
+  then
+    :
+  else
+    update_dropbox_link || exit 1
+  fi
 
   echo "Download ${contest^^}${contest_num} system testcase ..."
   dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
