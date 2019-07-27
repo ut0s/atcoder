@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 17:54:11 tagashira>
+# @date Time-stamp: <2019-07-27 18:35:32 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -8,7 +8,7 @@ set -ue
 readonly dropbox_static="https://www.dropbox.com/sh/arnpe0ef5wds8cv/"
 readonly UA="user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 
-readonly path_to_atcoder="$HOME/atcoder/"
+readonly path_to_cache="$HOME/atcoder/etc/"
 
 readonly API_KEY="a-demo-key-with-low-quota-per-ip-address" #demo key
 
@@ -21,7 +21,7 @@ Usage:
   COMMAND      <contest_id>, update
 EOS
   echo ""
-  cat ${path_to_atcoder}/bin/dl_system_testcase.sh | grep "@doc" |cut -d ' ' -f2- |tail -n +2
+  cat $0 | grep "@doc" |cut -d ' ' -f2- |tail -n +2
 
   exit 0
 }
@@ -30,13 +30,13 @@ EOS
 # @doc update testcase link in Dropbox folder
 update_dropbox_link(){
   ping -c 1 google.com > /dev/null &&\
-  curl -s -k -H "Content-Type: application/json" -H "Expect:" -X POST -d '{"url":"https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0","renderType":"jpg",outputAsJson:true}' "https://PhantomJScloud.com/api/browser/v2/$API_KEY/" --compressed  | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_atcoder/etc/.dropbox_link.info && echo "Update Done"
+  curl -s -k -H "Content-Type: application/json" -H "Expect:" -X POST -d '{"url":"https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0","renderType":"jpg",outputAsJson:true}' "https://PhantomJScloud.com/api/browser/v2/$API_KEY/" --compressed  | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
 }
 
 
 check_testcase_exist(){
   local query=$1
-  cat $path_to_atcoder/etc/.dropbox_link.info | grep ${query^^} > /dev/null && echo "true" || echo "false"
+  cat $path_to_cache/.dropbox_link.info | grep ${query^^} > /dev/null && echo "true" || echo "false"
 }
 
 
@@ -45,7 +45,7 @@ obtain_contest_link(){
   local isExist=$(check_testcase_exist $query)
   if [ $isExist = "true" ]
   then
-    par_link=$(cat $path_to_atcoder/etc/.dropbox_link.info | grep ${query^^})
+    par_link=$(cat $path_to_cache/.dropbox_link.info | grep ${query^^})
     echo $par_link
   elif [ $isExist = "false" ]
   then
@@ -99,7 +99,7 @@ main(){
   local contest=$(echo $contest_id | tr -cd '[a-z]\n')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
 
-  echo "Download system testcase ..."
+  echo "Download ${contest^^}${contest_num} system testcase ..."
   dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
 }
 
