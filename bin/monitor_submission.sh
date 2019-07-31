@@ -57,11 +57,12 @@ main(){
   init
   while true; do
     res=$(get_status $@)
-    if [ $res = "AC" ] || [ $res = "RE" ] || [ $res = "TLE" ] || [ $res = "WA" ]
+    if [ "$res" = "AC" ] || [ "$res" = "RE" ] || [ "$res" = "TLE" ] || [ "$res" = "WA" ] || [ "$res" = "CE" ]
     then
       notify_submission $@
       exit 0
     else
+      echo $res
       sleep $LAP"s"
       count=$(( $count + 1 ))
       if [ $count -eq 18 ]
