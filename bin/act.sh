@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 17:44:18 tagashira>
+# @date Time-stamp: <2019-08-08 23:40:55 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -124,7 +124,6 @@ setup_normal_contest(){
     if [ -e $level.cpp ]
     then
       oj_download $level $url
-      $path_to_atcoder/bin/dl_system_downloader $contest_id
     else
       touch $level.cpp
       cat <<EOS >> $level.cpp
@@ -158,8 +157,8 @@ int main() {
 EOS
 
       oj_download $level $url
-      $path_to_atcoder/bin/dl_system_downloader $contest_id
     fi
+    $path_to_atcoder/bin/dl_system_testcase.sh $contest_id
   done
 }
 
