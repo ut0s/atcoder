@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-08-08 23:40:55 tagashira>
+# @date Time-stamp: <2019-08-09 00:11:05 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -158,7 +158,6 @@ EOS
 
       oj_download $level $url
     fi
-    $path_to_atcoder/bin/dl_system_testcase.sh $contest_id
   done
 }
 
@@ -221,13 +220,21 @@ EOS
 }
 
 
-# @doc dl <level> <url> download test case
+# @doc dl <level> <url> download testcase
 oj_download(){
   local level=$1
   local url=$2
 
   mkdir -p test
   oj download --silent -d test/$level $url
+}
+
+# @doc dlsys <contest id> download system testcase
+oj_download_sys(){
+  local command=$1
+  local contest_id=$2
+
+  $path_to_atcoder/bin/dl_system_testcase.sh $contest_id
 }
 
 
@@ -327,6 +334,7 @@ function main() {
     "logout" ) oj_logout ;;
     "new" ) oj_new $@ ;;
     "dl" ) oj_download $@ ;;
+    "dlsys" ) oj_download_sys $@ ;;
     "test" ) oj_test $@ ;;
     "sys" ) oj_system_test $@ ;;
     "system" ) oj_system_test $@ ;;
