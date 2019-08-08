@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 18:55:31 tagashira>
+# @date Time-stamp: <2019-07-27 18:57:17 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -86,7 +86,7 @@ dl_testcase_in_out(){
 # @doc <contest_id> download system test case
 main(){
   if [[ $# -ne 1 ]]; then
-    echo "parameter is empty!!!"
+    echo "parameter is wrong"
     echo ""
     usage
   elif [[ $1 = "update" ]]
