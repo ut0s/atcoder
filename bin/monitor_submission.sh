@@ -8,7 +8,7 @@ path_to_icon="$(cd $(dirname $0) && cd ../etc && pwd)/.icon.png"
 NOTIFIY_COMMAND="notify-send"
 NOTIFIY_COMMAND_OPT=" -u normal --icon=${path_to_icon}"
 
-LAP=5 #seconds
+LAP=3 #seconds
 count=0
 
 init(){
@@ -59,15 +59,16 @@ main(){
     res=$(get_status $@)
     if [ "$res" = "AC" ] || [ "$res" = "RE" ] || [ "$res" = "TLE" ] || [ "$res" = "WA" ] || [ "$res" = "CE" ]
     then
+      echo ""
       notify_submission $@
       exit 0
     else
-      echo $res
+      echo -n "..."
       sleep $LAP"s"
       count=$(( $count + 1 ))
-      if [ $count -eq 18 ]
+      if [ $count -eq 10 ]
       then
-        echo "one and half minutes elapsed"
+        echo "30 seconds elapsed"
         exit 1
       fi
 
