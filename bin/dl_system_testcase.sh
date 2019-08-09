@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-07-27 18:57:17 tagashira>
+# @date Time-stamp: <2019-08-09 15:40:32 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -50,7 +50,6 @@ obtain_contest_link(){
   elif [ $isExist = "false" ]
   then
     echo "testcase doesn't exist OR wrong contest_id"
-    exit 0
   fi
 }
 
@@ -107,7 +106,7 @@ main(){
   fi
 
   echo "Download ${contest^^}${contest_num} system testcase ..."
-  dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
+  obtain_contest_link $contest_id && dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
 }
 
 
