@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-08-09 15:40:32 tagashira>
+# @date Time-stamp: <2019-08-14 13:26:36 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -9,8 +9,6 @@ readonly dropbox_static="https://www.dropbox.com/sh/arnpe0ef5wds8cv/"
 readonly UA="user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 
 readonly path_to_cache="$HOME/atcoder/etc/"
-
-readonly API_KEY="a-demo-key-with-low-quota-per-ip-address" #demo key
 
 
 function usage() {
@@ -30,7 +28,7 @@ EOS
 # @doc update testcase link in Dropbox folder
 update_dropbox_link(){
   ping -c 1 google.com > /dev/null &&\
-  curl -s -k -H "Content-Type: application/json" -H "Expect:" -X POST -d '{"url":"https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0","renderType":"jpg",outputAsJson:true}' "https://PhantomJScloud.com/api/browser/v2/$API_KEY/" --compressed  | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
+  google-chrome --headless --disable-gpu --dump-dom --virtual-time-budget=10000 "https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0" | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
 }
 
 
