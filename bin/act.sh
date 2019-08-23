@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-08-09 00:11:05 tagashira>
+# @date Time-stamp: <2019-08-24 00:42:11 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -253,6 +253,7 @@ oj_system_test(){
   local level=$2
 
   make $level
+  if [ ! -d system/$level ]; then oj_download_sys temp $(cat $level.cpp | grep "@url" | cut -d '/' -f5) ;fi
   oj test --print-input --print-memory -d system/$level -c ./$level
 }
 
