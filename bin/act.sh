@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-08-24 00:42:11 tagashira>
+# @date Time-stamp: <2019-09-01 21:02:56 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -272,6 +272,19 @@ oj_submit(){
 }
 
 
+oj_submit_force(){
+  local command=$1
+  local level=$2
+
+  local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
+
+  oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp |& tee tmp.log
+  readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
+  # echo $submitted_url
+  rm -f tmp.log
+}
+
+
 # @doc open <level> open AtCoder task page
 open_problem_page(){
   local command=$1
@@ -341,6 +354,7 @@ function main() {
     "system" ) oj_system_test $@ ;;
     "sub" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
     "submit" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
+    "subforce" ) oj_submit_force $@ ;;
     "open" ) open_problem_page $@ ;;
     "me" ) open_submission_page $@ ;;
     "pdf" ) open_editorial_pdf $@ ;;
