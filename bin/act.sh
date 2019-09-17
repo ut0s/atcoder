@@ -1,5 +1,5 @@
 #!/bin/bash
-# @date Time-stamp: <2019-09-01 21:02:56 tagashira>
+# @date Time-stamp: <2019-09-16 22:55:35 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -133,29 +133,8 @@ setup_normal_contest(){
   @url $url
 **/
 
-#include <bits/stdc++.h>
-using namespace std;
-
-typedef long long LL;
-#define ALL(obj) (obj).begin(), (obj).end()
-#define REP(i, N) for (int i = 0; i < (N); ++i)
-
-
-int main() {
-  int i, j, k, l;
-
-  string S;
-  cin >> S;
-
-  int N;
-  cin >> N;
-
-  cout << "" << endl;
-  return 0;
-}
-
 EOS
-
+      cat $path_to_atcoder/lib/template.cpp >> $level.cpp
       oj_download $level $url
     fi
   done
@@ -190,30 +169,8 @@ setup_manual(){
   @url $url
 **/
 
-#include <bits/stdc++.h>
-using namespace std;
-
-typedef long long LL;
-#define ALL(obj) (obj).begin(), (obj).end()
-#define REP(i, N) for (int i = 0; i < (N); ++i)
-
-
-int main() {
-  int i, j, k, l;
-
-  string S;
-  cin >> S;
-
-  int N;
-  cin >> N;
-
-
-  cout << "" << endl;
-  return 0;
-}
-
 EOS
-
+      cat $path_to_atcoder/lib/template.cpp >> $level.cpp
       oj_download $level $url
     fi
   done
