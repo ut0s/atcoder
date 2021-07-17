@@ -1,5 +1,4 @@
 #!/bin/bash
-# @date Time-stamp: <2019-09-16 22:55:35 tagashira>
 # @file act.sh
 # @brief wrapper script of online-judge-tools
 
@@ -111,8 +110,9 @@ setup_normal_contest(){
   local contest=$(echo $contest_id | tr -cd '[a-z]\n')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
 
-  mkdir -p ${contest^^}/${contest^^}${contest_num}
-  cd ${contest^^}/${contest^^}${contest_num}
+
+  mkdir -p $(echo $contest | tr '[a-z]' '[A-Z]')/$(echo $contest | tr '[a-z]' '[A-Z]')${contest_num}
+  cd $(echo $contest | tr '[a-z]' '[A-Z]')/$(echo $contest | tr '[a-z]' '[A-Z]')${contest_num}
   ln -fs ${path_to_atcoder}/etc/Makefile .
 
   for id in $(cat ${path_to_atcoder}/etc/.problems.json |jq -r '.[].id' |grep $contest_id ); do
@@ -149,8 +149,8 @@ setup_manual(){
   local contest=$(echo $contest_id | tr -cd '[a-z]\n')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
 
-  mkdir -p ${contest^^}/${contest^^}${contest_num}
-  cd ${contest^^}/${contest^^}${contest_num}
+  mkdir -p $(echo $contest | tr '[a-z]' '[A-Z]')/$(echo $contest | tr '[a-z]' '[A-Z]')${contest_num}
+  cd $(echo $contest | tr '[a-z]' '[A-Z]')/$(echo $contest | tr '[a-z]' '[A-Z]')${contest_num}
   ln -fs ${path_to_atcoder}/etc/Makefile .
 
   for level in {a..f}; do # ex.) a,b,c,d
