@@ -1,5 +1,4 @@
 #!/bin/bash
-# @date Time-stamp: <2019-08-14 13:26:36 tagashira>
 # @file dl_system_testcase.sh
 # @brief AtCoder Testcase Downloader
 
@@ -28,13 +27,17 @@ EOS
 # @doc update testcase link in Dropbox folder
 update_dropbox_link(){
   ping -c 1 google.com > /dev/null &&\
-  google-chrome --headless --disable-gpu --dump-dom --virtual-time-budget=10000 "https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0" | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
+  if [[ $(uname) == 'Darwin' ]]; then
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless --disable-gpu --dump-dom --virtual-time-budget=10000 "https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0" | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
+  else
+    google-chrome --headless --disable-gpu --dump-dom --virtual-time-budget=10000 "https://www.dropbox.com/sh/arnpe0ef5wds8cv/AAAk_SECQ2Nc6SVGii3rHX6Fa?dl=0" | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq > $path_to_cache/.dropbox_link.info && echo "Update Done"
+  fi
 }
 
 
 check_testcase_exist(){
   local query=$1
-  cat $path_to_cache/.dropbox_link.info | grep ${query^^} > /dev/null && echo "true" || echo "false"
+  cat $path_to_cache/.dropbox_link.info | grep ${query} > /dev/null && echo "true" || echo "false"
 }
 
 
@@ -43,7 +46,7 @@ obtain_contest_link(){
   local isExist=$(check_testcase_exist $query)
   if [ $isExist = "true" ]
   then
-    par_link=$(cat $path_to_cache/.dropbox_link.info | grep ${query^^})
+    par_link=$(cat $path_to_cache/.dropbox_link.info | grep ${query})
     echo $par_link
   elif [ $isExist = "false" ]
   then
@@ -56,7 +59,7 @@ obtain_problem_link(){
   local contest_id=$1
   local par_link=$2
 
-  curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' $par_link --compressed |sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq |grep "${contest_id^^}/"
+  curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' $par_link --compressed |sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static |sort -d |uniq |grep "${contest_id}/"
 }
 
 
@@ -66,13 +69,13 @@ dl_testcase_in_out(){
 
   for problem_link in $(obtain_problem_link $contest_id $par_link); do
     for in_out_link in $(curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' "${problem_link}" --compressed | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static | grep -e "/out" -e "/in" | sort -d | uniq ); do
-      local level=$(echo $in_out_link | cut -d '/' -f8 )
-      mkdir -p system/${level,,}
+      local level=$(echo $in_out_link | cut -d '/' -f8 | tr '[:upper:]' '[:lower:]')
+      mkdir -p system/${level}
       for dl_link in $(curl -k -s -H 'accept-encoding: gzip, deflate, br' -H $UA -H 'content-type: application/json' "${in_out_link}" --compressed | sed -e "s#<#\n#g" -e "s#\\\#\n#g" -e "s#\"#\n#g" | grep $dropbox_static | grep -e "/out/" -e "/in/" | sort -d | uniq); do
         local filename=$(echo $dl_link |cut -d '/' -f10 | cut -d '?' -f1)
         echo "$level/$filename"
-        echo $dl_link | grep "/in/" > /dev/null && curl -sL $dl_link -o system/${level,,}/${filename}.in  &
-        echo $dl_link | grep "/out/" > /dev/null && curl -sL $dl_link -o system/${level,,}/${filename}.out &
+        echo $dl_link | grep "/in/" > /dev/null && curl -sL $dl_link -o system/${level}/${filename}.in  &
+        echo $dl_link | grep "/out/" > /dev/null && curl -sL $dl_link -o system/${level}/${filename}.out &
       done
       wait
     done
@@ -92,8 +95,8 @@ main(){
     exit 0
   fi
 
-  local contest_id=$1
-  local contest=$(echo $contest_id | tr -cd '[a-z]\n')
+  local contest_id=$(echo $1 | tr '[:lower:]' '[:upper:]')
+  local contest=$(echo $contest_id | tr -cd '[a-z]\n' | tr '[:lower:]' '[:upper:]')
   local contest_num=$(echo $contest_id | tr -cd '0123456789\n')
 
   if [ -f $path_to_cache/.dropbox_link.info ]
@@ -103,7 +106,7 @@ main(){
     update_dropbox_link || exit 1
   fi
 
-  echo "Download ${contest^^}${contest_num} system testcase ..."
+  echo "Download ${contest}${contest_num} system testcase ..."
   obtain_contest_link $contest_id && dl_testcase_in_out $contest_id $(obtain_contest_link $contest_id)
 }
 
