@@ -1,7 +1,7 @@
 TARGET = a
 
 CXX = g++
-CXXFLAGS = -Wall -O2 -std=c++14
+CXXFLAGS = -Wall -Wextra -O2 -std=gnu++17
 SRCS = a.cpp
 OBJS := $(SRCS:.cpp=.o) #SRCSの各ファイルのサフィックスの.cppを.oに変換
 
