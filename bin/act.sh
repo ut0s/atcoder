@@ -6,6 +6,7 @@ set -ue
 
 readonly open_browser="google-chrome"
 readonly path_to_atcoder="$HOME/atcoder/"
+readonly TLE=5
 
 function usage() {
   cat <<EOS
@@ -22,7 +23,7 @@ EOS
 
 
 check_oj(){
-  which oj > /dev/null || ./install-oj.sh
+  which oj > /dev/null || ${path_to_atcoder}/bin/install-tools.sh
 }
 
 
@@ -31,12 +32,12 @@ update_problem_json(){
   now=$(date +%s)
   if [ -e ${path_to_atcoder}/etc/.problems.json ]
   then
-    modify=$(date +%s -r ${path_to_atcoder}/etc/.problems.json)
+    # modify=$(date +%s -r $path_to_atcoder/etc/.problems.json)
 
-    if [ $(($now - $modify)) -gt $((1*60*60)) ]
-    then
+    # if [ $(($now - $modify)) -gt $((1*60*60)) ]
+    # then
       ping -c 1 google.com > /dev/null && curl -s 'https://kenkoooo.com/atcoder/resources/problems.json' -H 'authority: kenkoooo.com' -H 'cache-control: max-age=0' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36' -H 'dnt: 1' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'referer: https://github.com/kenkoooo/AtCoderProblems' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7' --compressed > ${path_to_atcoder}/etc/.problems.json && echo "Update"
-    fi
+    # fi
   else
     ping -c 1 google.com > /dev/null && curl -s 'https://kenkoooo.com/atcoder/resources/problems.json' -H 'authority: kenkoooo.com' -H 'cache-control: max-age=0' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36' -H 'dnt: 1' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'referer: https://github.com/kenkoooo/AtCoderProblems' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: ja-JP,ja;q=0.9,en-US;q=0.8,en;q=0.7' --compressed > ${path_to_atcoder}/etc/.problems.json && echo "Init Download"
   fi
@@ -201,7 +202,7 @@ oj_test(){
   local level=$2
 
   make $level
-  oj test --print-input --print-memory -d test/$level -c ./$level
+  oj test --tle $TLE --print-input --print-memory -d test/$level -c ./$level
 }
 
 # @doc sys|system <level> test all testcase
@@ -211,7 +212,7 @@ oj_system_test(){
 
   make $level
   if [ ! -d system/$level ]; then oj_download_sys temp $(cat $level.cpp | grep "@url" | cut -d '/' -f5) ;fi
-  oj test --print-input --print-memory -d system/$level -c ./$level
+  oj test --tle $TLE --print-input --print-memory -d system/$level -c ./$level
 }
 
 
@@ -222,10 +223,11 @@ oj_submit(){
 
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
 
-  oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp |& tee tmp.log
-  readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
+  # oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp |& tee tmp.log
+  oj submit --language 4003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp
+  # readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
   # echo $submitted_url
-  rm -f tmp.log
+  # rm -f tmp.log
 }
 
 
@@ -235,10 +237,39 @@ oj_submit_force(){
 
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
 
-  oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp |& tee tmp.log
-  readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
+  # oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp |& tee tmp.log
+  oj submit --language 4003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp
+  # readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
   # echo $submitted_url
-  rm -f tmp.log
+  # rm -f tmp.log
+}
+
+
+commit_submission(){
+  local command=$1
+  local level=$2
+
+  local file=$level.cpp
+
+  local url=$(cat $file | grep "@url" | cut -d ' ' -f4)
+  local id=$(echo $url | cut -d '/' -f7)
+  local contest=$(echo $id | cut -d'_' -f1 | tr -cd '[a-z]\n')
+  local contest_num=$(echo $id | tr -cd '0123456789\n')
+  local submission_me="https://atcoder.jp/contests/${contest}${contest_num}/submissions?f.Task=${contest}${contest_num}_${level}&f.LanguageName=&f.Status=AC&f.User=ut0s"
+  local title=$(cat $file | grep "@title" | cut -d ' ' -f3- )
+
+  local tmpfile=$(mktemp)
+  wget -q -O- $submission_me | grep "href" | grep "Detail" > $tmpfile
+
+
+  local submission_num=$(cat $tmpfile | grep "submission" | cut -d'"' -f2 | cut -d'/' -f5 | tr -d ' ' | tr -d '\n' )
+  local submission_url="https://atcoder.jp/contests/${contest}${contest_num}/submissions/$submission_num"
+
+  echo "add: $title | (AC) $submission_url"
+  git add $file &&\
+    git commit -m "add: $title | (AC) $submission_url"
+
+  rm $tmpfile
 }
 
 
@@ -312,6 +343,8 @@ function main() {
     "sub" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
     "submit" ) oj_submit $@ && $path_to_atcoder/bin/monitor_submission.sh $submitted_url ;;
     "subforce" ) oj_submit_force $@ ;;
+    "ci" ) commit_submission $@ ;;
+    "commit" ) commit_submission $@ ;;
     "open" ) open_problem_page $@ ;;
     "me" ) open_submission_page $@ ;;
     "pdf" ) open_editorial_pdf $@ ;;
