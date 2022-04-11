@@ -28,8 +28,8 @@ typedef unsigned long long uLL;
 #define BIT(n) (1LL << (n))
 
 #define OUT(x) cout << (x) << "\n"
-#define DEBUG(x) cerr << #x << " : " << x << "\n"
-#define DEBUG2(x, y) cerr << "(" << #x << ", " << #y << ") = (" << x << ", " << y << ")\n";
+#define DEBUG(x) cout << #x << " : " << x << "\n"
+#define DEBUG2(x, y) cout << "(" << #x << ", " << #y << ") = (" << x << ", " << y << ")\n";
 
 #define PB push_back
 #define EB emplace_back
@@ -55,8 +55,13 @@ int main() {
   string S;
   cin >> S;
 
-  int N;
+  LL N;
   cin >> N;
+
+  vector<LL> A(N, 0);
+  REP(i, N) {
+    cin >> A[i];
+  }
 
   OUT("");
   return 0;
