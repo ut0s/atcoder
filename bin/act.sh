@@ -224,7 +224,7 @@ oj_submit(){
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
 
   # oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp |& tee tmp.log
-  oj submit --language 4003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp
+  oj submit --language 5001 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open $url $level.cpp
   # readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
   # echo $submitted_url
   # rm -f tmp.log
@@ -238,7 +238,7 @@ oj_submit_force(){
   local url=$(cat $level.cpp | grep "@url" | cut -d ' ' -f4)
 
   # oj submit --language 3003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp |& tee tmp.log
-  oj submit --language 4003 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp
+  oj submit --language 5001 --no-guess --wait 0 --guess-cxx-compiler gcc --no-open --yes $url $level.cpp
   # readonly submitted_url=$(cat tmp.log | grep "success: result:" |cut -d ' ' -f4)
   # echo $submitted_url
   # rm -f tmp.log
