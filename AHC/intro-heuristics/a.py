@@ -52,20 +52,26 @@ def evaluate(D, C, S):
   prev_score = calc_score(D, C, S, ans)
   logging.debug('initial score: {}'.format(prev_score))
   while time_end - time_start < 1.93:
+    tmp_p = random.random()  # 0.0 ~ 1.0
     tmp = ans.copy()
-    tmp_day = random.randint(0, D-1)
-    tmp_type = random.randint(1, 26)
-    tmp[tmp_day] = tmp_type
+    if tmp_p > 0.3:
+      tmp_day = random.randint(0, D-1)
+      tmp_type = random.randint(1, 26)
+      tmp[tmp_day] = tmp_type
+    else:
+      day_a = random.randint(0, D-1-1)
+      day_b = random.randint(day_a+1, min(D-1, day_a+16))
+      tmp[day_a] = ans[day_b]
+      tmp[day_b] = ans[day_a]
     tmp_score = calc_score(D, C, S, tmp)
     if tmp_score > prev_score:
       logging.debug(
-          'score: {} > prev_score: {}\ttmp: {}'.format(tmp_score, prev_score, tmp))
+          'score: {} > prev_score: {}'.format(tmp_score, prev_score))
       # save current state
       prev_score = tmp_score
       ans = tmp.copy()
     time_end = time.perf_counter()
-  logging.debug('last score: {}\tlast ans: {}'.format(
-      prev_score, ans))
+  logging.debug('last score: {}'.format(format(prev_score, ',')))
   return ans
 
 
